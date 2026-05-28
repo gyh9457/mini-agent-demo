@@ -34,9 +34,11 @@ npm test         # 测试
 
 ## 技术栈
 
-- TypeScript
-- OpenAI SDK（或兼容 API）
-- Node.js CLI
+- **TypeScript** + Node.js CLI
+- **OpenAI SDK** (`openai` npm 包)
+- **LLM 模型**: Qwen Plus (`qwen-plus`)，通过阿里云 DashScope OpenAI 兼容端点
+- **Base URL**: `https://dashscope.aliyuncs.com/compatible-mode/v1`
+- **API Key**: `DASHSCOPE_API_KEY` 环境变量
 
 ## 项目结构
 

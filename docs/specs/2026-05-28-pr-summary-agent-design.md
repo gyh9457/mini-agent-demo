@@ -19,10 +19,36 @@ GitHub PR 摘要 agent。
 
 ## 技术栈
 
-- 核心: TypeScript + OpenAI SDK (对接千问 DashScope)
+- 核心: TypeScript + **OpenAI SDK** (`openai` npm 包)
+- LLM 模型: **Qwen Plus** (`qwen-plus`)，通过阿里云 DashScope OpenAI 兼容端点调用
+- Base URL: `https://dashscope.aliyuncs.com/compatible-mode/v1`
+- API Key 环境变量: `DASHSCOPE_API_KEY`
 - Web 壳: Next.js (API route + 前端)
 - 测试: vitest
 - Eval: autoevals (规则断言 + LLM-as-judge)
+
+### SDK 初始化示例
+
+```typescript
+import OpenAI from 'openai';
+import 'dotenv/config';
+
+const client = new OpenAI({
+  apiKey: process.env.DASHSCOPE_API_KEY,
+  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+});
+
+const response = await client.chat.completions.create({
+  model: 'qwen-plus',
+  messages: [{ role: 'user', content: 'hello' }],
+});
+```
+
+### 为什么不用 Vercel AI SDK / Anthropic SDK
+
+- **学习深度优先** → 直接手写 OpenAI SDK 调用，理解底层 HTTP/streaming/tool_call 处理
+- **Vercel AI SDK** 封装太厚，学不到原理
+- **Anthropic SDK** 与千问不兼容，千问只支持 OpenAI 兼容端点
 
 ## 架构
 
