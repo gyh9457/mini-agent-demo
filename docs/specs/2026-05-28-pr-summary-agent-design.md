@@ -59,7 +59,7 @@ GitHub PR 摘要 agent。
 
 ## 组件
 
-1. `GitHubClient` — 封装 `@octokit/rest` 或 `gh` CLI 拉 PR diff / file meta / issues
+1. `GitHubClient` — 封装 `@octokit/rest` 拉 PR diff / file meta / issues
 2. `ToolRegistry` — 注册 3 个 tool (fetch_pr_diff, get_file_meta, search_issues)
 3. `AgentLoop` — 核心 while 循环，调 OpenAI stream API，解析 chunk，执行 tool
 4. `SchemaValidator` — 最终 JSON 校验 (用 Zod)
