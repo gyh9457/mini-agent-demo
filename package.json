@@ -1,0 +1,35 @@
+{
+  "name": "mini-agent",
+  "version": "0.1.0",
+  "description": "M1 收官项目：完整 LLM agent (tool use + structured output + streaming + eval)",
+  "type": "module",
+  "main": "dist/index.js",
+  "bin": {
+    "mini-agent": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "eval": "tsx src/eval/run.ts",
+    "test": "vitest"
+  },
+  "keywords": [
+    "llm",
+    "agent",
+    "tool-use",
+    "structured-output"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "openai": "^6.39.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.1",
+    "tsx": "^4.22.3",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  }
+}
