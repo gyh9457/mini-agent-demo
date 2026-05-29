@@ -72,7 +72,7 @@ export async function* runAgent(
     const pendingToolCalls: PendingToolCall[] = [];
 
     const stream = await openaiClient.chat.completions.create({
-      model: 'qwen-plus',
+      model: 'qwen3.7-max',
       messages,
       tools: toolDefinitions.map((t) => ({
         type: 'function' as const,

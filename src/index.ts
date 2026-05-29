@@ -23,7 +23,7 @@ if (!apiKey) {
 
 const openaiClient = new OpenAI({
   apiKey,
-  baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+  baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
 });
 
 const githubClient = new GitHubClient();

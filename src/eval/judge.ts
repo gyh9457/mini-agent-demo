@@ -83,21 +83,36 @@ export async function judgeOutput(
 
     try {
       const response = await openaiClient.chat.completions.create({
-        model: 'qwen-plus',
+        model: 'qwen3.7-max',
         messages: [
           { role: 'user', content: prompt },
         ],
         temperature: 0,
       });
 
-      const content = response.choices[0]?.message?.content || '';
-      const parsed = JSON.parse(content);
+      let content = response.choices[0]?.message?.content || '';
+      // 去除 markdown 代码围栏
+      content = content.trim();
+      if (content.startsWith('```')) {
+        content = content.replace(/^```(?:json)?\s*\n?/, '').replace(/\n?```\s*$/, '');
+      }
 
-      results.push({
-        name,
-        score: Math.min(5, Math.max(1, Number(parsed.score) || 1)),
-        reasoning: parsed.reasoning || '未提供理由',
-      });
+      let score: number;
+      let reasoning: string;
+
+      try {
+        const parsed = JSON.parse(content);
+        score = Math.min(5, Math.max(1, Number(parsed.score) || 1));
+        reasoning = parsed.reasoning || '未提供理由';
+      } catch {
+        // JSON 解析失败，尝试正则提取
+        const scoreMatch = content.match(/"score"\s*:\s*(\d+)/);
+        const reasonMatch = content.match(/"reasoning"\s*:\s*"([\s\S]*?)"/);
+        score = scoreMatch ? Math.min(5, Math.max(1, Number(scoreMatch[1]))) : 1;
+        reasoning = reasonMatch ? reasonMatch[1] : `解析失败: ${content.slice(0, 200)}`;
+      }
+
+      results.push({ name, score, reasoning });
     } catch (err) {
       results.push({
         name,

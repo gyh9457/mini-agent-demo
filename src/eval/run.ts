@@ -161,7 +161,7 @@ async function main() {
 
   const openaiClient = new OpenAI({
     apiKey,
-    baseURL: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+    baseURL: 'https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1',
   });
 
   console.log(`🧪 运行 ${evalCases.length} 个 eval case\n`);
