@@ -1,34 +1,16 @@
+import { z } from 'zod';
+
 /**
  * Structured output schema
  *
  * 强制 LLM 输出符合此 schema 的 JSON
  */
+export const outputSchema = z
+  .object({
+    summary: z.string().min(1, 'summary 不能为空'),
+    files_changed: z.number().int().min(0, 'files_changed 必须 >= 0'),
+    risk_level: z.enum(['low', 'medium', 'high']),
+  })
+  .strict();
 
-export const outputSchema = {
-  type: "object",
-  properties: {
-    summary: {
-      type: "string",
-      description: "简短摘要",
-    },
-    keyPoints: {
-      type: "array",
-      items: { type: "string" },
-      description: "关键要点",
-    },
-    confidence: {
-      type: "number",
-      minimum: 0,
-      maximum: 1,
-      description: "置信度 0-1",
-    },
-  },
-  required: ["summary", "keyPoints", "confidence"],
-  additionalProperties: false,
-} as const;
-
-export interface StructuredOutput {
-  summary: string;
-  keyPoints: string[];
-  confidence: number;
-}
+export type StructuredOutput = z.infer<typeof outputSchema>;
