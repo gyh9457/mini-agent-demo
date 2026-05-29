@@ -1,0 +1,34 @@
+{
+  "url": "https://github.com/example/platform/pull/200",
+  "owner": "example",
+  "repo": "platform",
+  "prNumber": 200,
+  "diff": "diff --git a/src/db/connection.ts b/src/db/connection.ts\nindex aaa..bbb 100644\n--- a/src/db/connection.ts\n+++ b/src/db/connection.ts\n@@ -1,10 +1,15 @@\n-import { MongoClient } from 'mongodb';\n+import { DataSource } from 'typeorm';\n \n-const client = new MongoClient(process.env.MONGO_URL);\n-export const db = client.db('app');\n+export const dataSource = new DataSource({\n+  type: 'postgres',\n+  host: process.env.DB_HOST,\n+  port: 5432,\n+  database: 'app',\n+  entities: [__dirname + '/entities/*.ts'],\n+  synchronize: false,\n+});\ndiff --git a/src/db/entities/User.ts b/src/db/entities/User.ts\nnew file mode 100644\n--- /dev/null\n+++ b/src/db/entities/User.ts\n@@ -0,0 +1,20 @@\n+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';\n+\n+@Entity()\n+export class User {\n+  @PrimaryGeneratedColumn('uuid')\n+  id: string;\n+\n+  @Column()\n+  email: string;\n+\n+  @Column()\n+  name: string;\n+}\ndiff --git a/src/services/userService.ts b/src/services/userService.ts\nindex ccc..ddd 100644\n--- a/src/services/userService.ts\n+++ b/src/services/userService.ts\n@@ -1,15 +1,20 @@\n-import { db } from '../db/connection';\n+import { dataSource } from '../db/connection';\n+import { User } from '../db/entities/User';\n \n-const users = db.collection('users');\n+const userRepo = dataSource.getRepository(User);\n \n export async function getUser(id: string) {\n-  return users.findOne({ _id: id });\n+  return userRepo.findOneBy({ id });\n }\n \n export async function createUser(data: { email: string; name: string }) {\n-  return users.insertOne(data);\n+  const user = userRepo.create(data);\n+  return userRepo.save(user);\n }\n",
+  "files": [
+    { "path": "src/db/connection.ts", "additions": 10, "deletions": 3, "status": "modified" },
+    { "path": "src/db/entities/User.ts", "additions": 20, "deletions": 0, "status": "added" },
+    { "path": "src/db/entities/Post.ts", "additions": 25, "deletions": 0, "status": "added" },
+    { "path": "src/db/entities/Comment.ts", "additions": 22, "deletions": 0, "status": "added" },
+    { "path": "src/db/migrations/001-init.ts", "additions": 45, "deletions": 0, "status": "added" },
+    { "path": "src/services/userService.ts", "additions": 8, "deletions": 5, "status": "modified" },
+    { "path": "src/services/postService.ts", "additions": 12, "deletions": 8, "status": "modified" },
+    { "path": "src/services/commentService.ts", "additions": 10, "deletions": 6, "status": "modified" },
+    { "path": "src/routes/users.ts", "additions": 5, "deletions": 3, "status": "modified" },
+    { "path": "src/routes/posts.ts", "additions": 5, "deletions": 3, "status": "modified" },
+    { "path": "src/routes/comments.ts", "additions": 5, "deletions": 3, "status": "modified" },
+    { "path": "src/app.ts", "additions": 3, "deletions": 1, "status": "modified" },
+    { "path": "src/config.ts", "additions": 8, "deletions": 4, "status": "modified" },
+    { "path": "src/types.ts", "additions": 15, "deletions": 10, "status": "modified" },
+    { "path": "package.json", "additions": 5, "deletions": 2, "status": "modified" },
+    { "path": "docker-compose.yml", "additions": 12, "deletions": 8, "status": "modified" },
+    { "path": ".env.example", "additions": 3, "deletions": 2, "status": "modified" },
+    { "path": "README.md", "additions": 20, "deletions": 10, "status": "modified" },
+    { "path": "src/db/seed.ts", "additions": 30, "deletions": 0, "status": "added" },
+    { "path": "src/db/old-mongo-client.ts", "additions": 0, "deletions": 25, "status": "removed" },
+    { "path": "tests/userService.test.ts", "additions": 18, "deletions": 12, "status": "modified" }
+  ],
+  "issues": [
+    { "number": 180, "title": "Migrate from MongoDB to PostgreSQL", "state": "open" },
+    { "number": 150, "title": "Use TypeORM for database access", "state": "closed" }
+  ]
+}

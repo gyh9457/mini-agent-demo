@@ -1,0 +1,18 @@
+{
+  "url": "https://github.com/example/webapp/pull/42",
+  "owner": "example",
+  "repo": "webapp",
+  "prNumber": 42,
+  "diff": "diff --git a/src/auth/middleware.ts b/src/auth/middleware.ts\nnew file mode 100644\nindex 0000000..abc1234\n--- /dev/null\n+++ b/src/auth/middleware.ts\n@@ -0,0 +1,25 @@\n+import { Request, Response, NextFunction } from 'express';\n+import { verifyToken } from './jwt';\n+\n+export function authMiddleware(req: Request, res: Response, next: NextFunction) {\n+  const token = req.headers.authorization?.split(' ')[1];\n+  if (!token) {\n+    return res.status(401).json({ error: 'No token provided' });\n+  }\n+  try {\n+    const user = verifyToken(token);\n+    req.user = user;\n+    next();\n+  } catch {\n+    return res.status(403).json({ error: 'Invalid token' });\n+  }\n+}\ndiff --git a/src/auth/jwt.ts b/src/auth/jwt.ts\nnew file mode 100644\nindex 0000000..def5678\n--- /dev/null\n+++ b/src/auth/jwt.ts\n@@ -0,0 +1,15 @@\n+import jwt from 'jsonwebtoken';\n+\n+const SECRET = process.env.JWT_SECRET || 'dev-secret';\n+\n+export function signToken(payload: object): string {\n+  return jwt.sign(payload, SECRET, { expiresIn: '24h' });\n+}\n+\n+export function verifyToken(token: string): object {\n+  return jwt.verify(token, SECRET) as object;\n+}\ndiff --git a/src/routes/user.ts b/src/routes/user.ts\nindex 1111111..2222222 100644\n--- a/src/routes/user.ts\n+++ b/src/routes/user.ts\n@@ -1,8 +1,12 @@\n import { Router } from 'express';\n+import { authMiddleware } from '../auth/middleware';\n \n const router = Router();\n \n-router.get('/profile', (req, res) => {\n+router.get('/profile', authMiddleware, (req, res) => {\n+  // @ts-ignore\n+  const user = req.user;\n   res.json({ user });\n });\ndiff --git a/src/app.ts b/src/app.ts\nindex 3333333..4444444 100644\n--- a/src/app.ts\n+++ b/src/app.ts\n@@ -3,6 +3,7 @@ import cors from 'cors';\n import { userRouter } from './routes/user';\n \n const app = express();\n+app.use(cors());\n app.use(express.json());\n app.use('/api/user', userRouter);\ndiff --git a/package.json b/package.json\nindex 5555555..6666666 100644\n--- a/package.json\n+++ b/package.json\n@@ -10,6 +10,8 @@\n     \"express\": \"^4.18.0\",\n     \"cors\": \"^2.8.5\",\n+    \"jsonwebtoken\": \"^9.0.0\",\n+    \"@types/jsonwebtoken\": \"^9.0.0\"\n   }\n }\n",
+  "files": [
+    { "path": "src/auth/middleware.ts", "additions": 25, "deletions": 0, "status": "added" },
+    { "path": "src/auth/jwt.ts", "additions": 15, "deletions": 0, "status": "added" },
+    { "path": "src/routes/user.ts", "additions": 4, "deletions": 1, "status": "modified" },
+    { "path": "src/app.ts", "additions": 1, "deletions": 0, "status": "modified" },
+    { "path": "package.json", "additions": 2, "deletions": 0, "status": "modified" }
+  ],
+  "issues": [
+    { "number": 40, "title": "Add user authentication", "state": "open" },
+    { "number": 38, "title": "Security: protect user endpoints", "state": "open" }
+  ]
+}

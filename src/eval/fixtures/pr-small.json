@@ -1,0 +1,11 @@
+{
+  "url": "https://github.com/example/calculator/pull/1",
+  "owner": "example",
+  "repo": "calculator",
+  "prNumber": 1,
+  "diff": "diff --git a/src/add.ts b/src/add.ts\nindex abc1234..def5678 100644\n--- a/src/add.ts\n+++ b/src/add.ts\n@@ -1,5 +1,5 @@\n export function add(a: number, b: number): number {\n-  return a + b + 1;\n+  return a + b;\n }\n",
+  "files": [
+    { "path": "src/add.ts", "additions": 1, "deletions": 1, "status": "modified" }
+  ],
+  "issues": []
+}
