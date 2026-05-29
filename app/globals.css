@@ -1,0 +1,121 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background: #0d1117;
+  color: #c9d1d9;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #f0f6fc;
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.input-row input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  background: #161b22;
+  color: #c9d1d9;
+  font-size: 1rem;
+  outline: none;
+}
+
+.input-row input:focus {
+  border-color: #58a6ff;
+}
+
+.input-row button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  background: #238636;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.input-row button:hover {
+  background: #2ea043;
+}
+
+.input-row button:disabled {
+  background: #21262d;
+  color: #484f58;
+  cursor: not-allowed;
+}
+
+.stream-area {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+  min-height: 200px;
+  white-space: pre-wrap;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.tool-event {
+  color: #d29922;
+  font-weight: 600;
+}
+
+.error-event {
+  color: #f85149;
+}
+
+.final-card {
+  margin-top: 1.5rem;
+  background: #161b22;
+  border: 1px solid #238636;
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+
+.final-card h2 {
+  color: #3fb950;
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.final-card .field {
+  margin-bottom: 0.75rem;
+}
+
+.final-card .label {
+  color: #8b949e;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.final-card .value {
+  color: #f0f6fc;
+  font-size: 1rem;
+}
+
+.risk-low { color: #3fb950; }
+.risk-medium { color: #d29922; }
+.risk-high { color: #f85149; }
