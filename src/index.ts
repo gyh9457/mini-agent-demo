@@ -2,15 +2,15 @@
 
 import OpenAI from 'openai';
 import 'dotenv/config';
-import { GitHubClient } from './github.js';
-import { runAgent } from './agent.js';
-import type { StreamEvent } from './stream.js';
+import { GitHubClient } from './github';
+import { runAgent } from './agent';
+import type { StreamEvent } from './stream';
 
 const prUrl = process.argv.slice(2).join(' ');
 
 if (!prUrl) {
-  console.error('用法: mini-agent <PR_URL>');
-  console.error('示例: mini-agent https://github.com/vercel/next.js/pull/12345');
+  console.error('用法: mini-agent-demo <PR_URL>');
+  console.error('示例: mini-agent-demo https://github.com/vercel/next.js/pull/12345');
   process.exit(1);
 }
 

@@ -1,11 +1,11 @@
 {
-  "name": "mini-agent",
+  "name": "mini-agent-demo",
   "version": "0.1.0",
   "description": "M1 收官项目：完整 LLM agent (tool use + structured output + streaming + eval)",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "mini-agent": "dist/index.js"
+    "mini-agent-demo": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
