@@ -86,7 +86,6 @@ export default function Home() {
 
     setLoading(false);
   }
-
   return (
     <div className="container">
       <h1>PR 摘要 Agent</h1>
