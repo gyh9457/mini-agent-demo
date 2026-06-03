@@ -12,12 +12,11 @@
 
 import type OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions.js';
-import type { GitHubClient } from './github.js';
-import { parsePrUrl } from './github.js';
-import { toolDefinitions, executeTool } from './tools/index.js';
-import { outputSchema } from './output.js';
-import type { StructuredOutput } from './output.js';
-import type { StreamEvent } from './stream.js';
+import type { GitHubClient } from './github';
+import { parsePrUrl } from './github';
+import { toolDefinitions, executeTool } from './tools/index';
+import { outputSchema } from './output';
+import type { StreamEvent } from './stream';
 
 const SYSTEM_PROMPT = `你是一个 GitHub PR 审查 agent。你的职责：
 1. 使用可用工具分析 Pull Request

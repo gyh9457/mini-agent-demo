@@ -1,7 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
-import { runAgent } from '../agent.js';
-import type { StreamEvent } from '../stream.js';
-import type { GitHubClient } from '../github.js';
+import { runAgent } from '../agent';
+import type { StreamEvent } from '../stream';
+import type { GitHubClient } from '../github';
 
 // --- Mock helpers ---
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { outputSchema } from '../output.js';
+import { outputSchema } from '../output';
 
 describe('outputSchema', () => {
   it('接受合法输出 (low risk)', () => {

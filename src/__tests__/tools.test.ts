@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
-import { toolDefinitions, executeTool } from '../tools/index.js';
-import type { GitHubClient } from '../github.js';
+import { toolDefinitions, executeTool } from '../tools/index';
+import type { GitHubClient } from '../github';
 
 function createMockClient(): GitHubClient {
   return {

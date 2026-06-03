@@ -1,5 +1,5 @@
-import { outputSchema } from '../output.js';
-import type { StructuredOutput } from '../output.js';
+import { outputSchema } from '../output';
+import type { StructuredOutput } from '../output';
 
 export interface AssertionResult {
   name: string;

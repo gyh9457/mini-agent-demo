@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { parsePrUrl, GitHubClient } from '../github.js';
+import { parsePrUrl, GitHubClient } from '../github';
 
 describe('parsePrUrl', () => {
   it('解析标准 GitHub PR URL', () => {

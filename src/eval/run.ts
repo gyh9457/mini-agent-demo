@@ -1,14 +1,14 @@
 import OpenAI from 'openai';
 import 'dotenv/config';
-import { runAgent } from '../agent.js';
-import type { StructuredOutput } from '../output.js';
-import { GitHubClient } from '../github.js';
-import { evalCases } from './cases.js';
-import type { EvalCase } from './cases.js';
-import { runRuleAssertions } from './assertions.js';
-import type { AssertionResult } from './assertions.js';
-import { judgeOutput } from './judge.js';
-import type { JudgeResult } from './judge.js';
+import { runAgent } from '../agent';
+import type { StructuredOutput } from '../output';
+import { GitHubClient } from '../github';
+import { evalCases } from './cases';
+import type { EvalCase } from './cases';
+import { runRuleAssertions } from './assertions';
+import type { AssertionResult } from './assertions';
+import { judgeOutput } from './judge';
+import type { JudgeResult } from './judge';
 
 interface CaseResult {
   caseId: string;

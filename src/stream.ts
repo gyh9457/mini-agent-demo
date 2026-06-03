@@ -1,4 +1,4 @@
-import type { StructuredOutput } from './output.js';
+import type { StructuredOutput } from './output';
 
 export type StreamEvent =
   | { type: 'text'; content: string }

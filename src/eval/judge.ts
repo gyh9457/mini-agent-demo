@@ -1,5 +1,5 @@
 import type OpenAI from 'openai';
-import type { StructuredOutput } from '../output.js';
+import type { StructuredOutput } from '../output';
 
 export interface JudgeResult {
   name: string;
