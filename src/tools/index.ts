@@ -1,4 +1,4 @@
-import type { GitHubClient } from '../github.js';
+import type { GitHubClient } from '../github';
 
 export interface ToolDefinition {
   type: 'function';
@@ -67,6 +67,68 @@ export const toolDefinitions: ToolDefinition[] = [
   },
 ];
 
+// 跳过的文件模式（生成文件、锁文件、二进制）
+const SKIP_PATTERNS = [
+  /package-lock\.json$/,
+  /yarn\.lock$/,
+  /pnpm-lock\.yaml$/,
+  /\.min\.(js|css)$/,
+  /\.map$/,
+  /\.svg$/,
+  /\.png$/,
+  /\.jpg$/,
+  /\.jpeg$/,
+  /\.gif$/,
+  /\.ico$/,
+  /\.woff2?$/,
+  /\.ttf$/,
+  /\.eot$/,
+];
+
+// 单文件 diff 最大保留长度
+const MAX_FILE_DIFF_LENGTH = 50000;
+// 总 diff 最大长度
+const MAX_TOTAL_DIFF_LENGTH = 800000;
+
+function truncateDiff(diff: string): string {
+  const files = diff.split(/^diff --git /m).filter(Boolean);
+  const result: string[] = [];
+  let totalLength = 0;
+  let skippedCount = 0;
+
+  for (const file of files) {
+    const fileDiff = 'diff --git ' + file;
+
+    // 检查是否跳过
+    const firstLine = file.split('\n')[0];
+    if (SKIP_PATTERNS.some((p) => p.test(firstLine))) {
+      skippedCount++;
+      continue;
+    }
+
+    // 截断超长文件 diff
+    let content = fileDiff;
+    if (fileDiff.length > MAX_FILE_DIFF_LENGTH) {
+      content = fileDiff.slice(0, MAX_FILE_DIFF_LENGTH) + '\n... [truncated] ...\n';
+    }
+
+    // 检查总长度
+    if (totalLength + content.length > MAX_TOTAL_DIFF_LENGTH) {
+      result.push(`\n... [truncated: ${files.length - result.length - skippedCount} more files] ...`);
+      break;
+    }
+
+    result.push(content);
+    totalLength += content.length;
+  }
+
+  let summary = `[diff 摘要: ${files.length} 个文件`;
+  if (skippedCount > 0) summary += `, 跳过 ${skippedCount} 个生成/二进制文件`;
+  summary += `, 截断后 ${totalLength} 字符]\n\n`;
+
+  return summary + result.join('');
+}
+
 export async function executeTool(
   name: string,
   args: Record<string, unknown>,
@@ -80,7 +142,11 @@ export async function executeTool(
           repo: string;
           pr_number: number;
         };
-        return await client.getPrDiff(owner, repo, pr_number);
+        const diff = await client.getPrDiff(owner, repo, pr_number);
+        if (diff.length > MAX_TOTAL_DIFF_LENGTH) {
+          return truncateDiff(diff);
+        }
+        return diff;
       }
       case 'get_file_meta': {
         const { owner, repo, pr_number } = args as {
